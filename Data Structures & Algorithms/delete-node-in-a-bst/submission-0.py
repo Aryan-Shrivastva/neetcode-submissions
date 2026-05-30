@@ -1,0 +1,33 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def deleteNode(self, root: Optional[TreeNode], key: int) -> Optional[TreeNode]:
+        
+        if root is None:
+            return root
+
+        if key> root.val:
+            root.right = self.deleteNode(root.right, key)
+        elif key<root.val:
+            root.left = self.deleteNode(root.left, key)
+        else:
+            if root.left is None:
+                return root.right
+            elif root.right is None:
+                return root.left
+            
+            #find the min from right subtreee that would replace it
+            curr = root.right
+            while curr.left:
+                curr = curr.left
+            curr.left = root.left
+            ans = root.right
+            del root
+            return ans
+        
+        return root
+
